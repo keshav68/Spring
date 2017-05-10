@@ -3,22 +3,19 @@ package com.test.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-import javax.websocket.server.PathParam;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.test.bean.Employee;
+import com.test.bean.Sample;
 import com.test.bean.User;
 import com.test.repository.UserRepository;
 
@@ -72,27 +69,24 @@ public class RestCont {
 		
 	}
 	
-	@org.springframework.transaction.annotation.Transactional
-	@RequestMapping(value="/update" , method = RequestMethod.PUT , consumes = MediaType.ALL_VALUE )
-	public void addupdateUser (@RequestParam String name
-			, @RequestParam String email) {
+		
+	@RequestMapping(value="/update/{id}" , method = RequestMethod.PUT  )
+	public void addupdateUser (@PathVariable("id") String id) {
 		
 		User n = new User();
-		n.setName(name);
-		n.setEmail(email);
+	
 		uRep.save(n);
 		
 		
 	}
 	
 
-	@RequestMapping(value="/addFromAngular" , method = RequestMethod.POST )
-	public void addNewUserFromAngular (@RequestBody User user) {
+	@RequestMapping(value="/addFromAngularSample" ,method = RequestMethod.POST ,consumes = MediaType.APPLICATION_JSON_VALUE )
+	public void addFromAngularSample (@Valid  @RequestBody  Sample value) {
 		
 		User n= new User();
-		n.setName(user.getName());
-		n.setEmail(user.getEmail());
-		uRep.save(n);
+	
+		uRep.save(n);	
 		
 		
 	}
